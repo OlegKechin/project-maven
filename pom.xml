@@ -41,6 +41,7 @@
     </dependencies>
 
     <build>
+
         <plugins>
             <!-- Usual compilation -->
             <plugin>
@@ -91,8 +92,9 @@
                 <configuration>
                     <archive>
                         <manifest>
+                            <classpathPrefix>lib\</classpathPrefix>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader</mainClass>
+                            <mainClass>org/eclipse/jdt/internal/jarinjarloader/JarRsrcLoader</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Rsrc-Main-Class>com.javarush.games.racer.RacerGame</Rsrc-Main-Class>
@@ -108,9 +110,32 @@
                 <configuration>
                     <excludes>StrangeTest</excludes>
                 </configuration>
-
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>
+                                copy-dependencies
+                            </goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includeScope>compile</includeScope>
+                    <outputDirectory>${project.build.directory}/resources</outputDirectory>
+                </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>${project.build.directory}/resources</directory>
+                <targetPath>lib\</targetPath>
+            </resource>
+        </resources>
     </build>
-
 </project>
